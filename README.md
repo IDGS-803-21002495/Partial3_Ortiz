@@ -22,5 +22,27 @@ Este es un sistema de gestión de pedidos para una pizzería, desarrollado con F
 1. **Clona el repositorio**:
 
    ```bash
-   git clone 
+   git clone https://github.com/IDGS-803-21002495/Partial3_Ortiz.git
    cd Partital3_Ortiz
+  
+2. **Crea un entorno virtual**:
+   ```bash
+   python -m venv env
+
+3. **Instala las dependencias**:
+   ```bash
+   pip install -r requirements.txt
+
+4. **Configura la base de datos**:
+   - Asegúrate de que la base de datos esté configurada en config.py.
+   - Crea la base de datos pizzeria en tu gestor de base de datos.
+   - Agrega los usuarios que tendran acceso a la aplicación. **Recuerda que la contraseña esta en hash**.
+
+5. **Ejecuta la aplicación**:
+   ```bash
+   py app.py
+
+**Para consultar más información sobre el uso de Flask-Login consulte aquí:**
+
+   
+   
