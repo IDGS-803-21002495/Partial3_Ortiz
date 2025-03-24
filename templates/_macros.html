@@ -1,0 +1,36 @@
+{% macro radio_button(name, label, value="", checked=False) %}
+    <div class="flex items-center mb-4">
+        <input id="{{ name }}_{{ value }}" type="radio" value="{{ value }}" name="{{ name }}"
+               class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+               {% if checked %} checked {% endif %}>
+        <label for="{{ name }}_{{ value }}" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-800">
+            {{ label }}
+        </label>
+    </div>
+{% endmacro %}
+
+{% macro checkbox(name, label, value="", checked=False) %}
+    <div class="flex items-center mb-4">
+        <input id="{{ name }}_{{ value }}" type="checkbox" name="{{ name }}" value="{{ value }}" 
+               class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+               {% if checked %} checked {% endif %}>
+        <label for="{{ name }}_{{ value }}" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-900">
+            {{ label }}
+        </label>
+    </div>
+{% endmacro %}
+
+{% macro camposNuevos(field) %}
+    <h2 class="font-bold text-gray-800">{{ field.label }}</h2>
+    <dd>
+        {{ field(**kwargs) }} 
+    </dd>
+
+    {% if field.errors %}
+        <ul>
+            {% for error in field.errors %}
+                <li style="color: red;">{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endmacro %}

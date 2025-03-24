@@ -1,0 +1,127 @@
+{% extends "layout.html" %}
+
+{% block container %}
+{% import "_macros.html" as macros %}
+
+<div class="px-6 py-4">
+    <div class="flex space-x-4">
+        <!-- Primer elemento (70%) -->
+        <a
+            class="block p-6 bg-white border border-gray-100 rounded-lg shadow-sm dark:bg-gray-50 dark:border-gray-100 flex-7">
+            <!-- Tabla de detalle de pedidos -->
+            <div class="relative overflow-x-auto py-4 px-2">
+                <table class="w-full text-left rtl:text-right text-gray-800 dark:text-gray-900">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-200 dark:text-gray-800">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">Número de pedido</th>
+                            <th scope="col" class="px-6 py-3">Tamaño</th>
+                            <th scope="col" class="px-6 py-3">Ingredientes</th>
+                            <th scope="col" class="px-6 py-3">Número de pizzas</th>
+                            <th scope="col" class="px-6 py-3">Subtotal</th>
+                            <th scope="col" class="px-6 py-3">Quitar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if pedidos %}
+                        {% for pedido in pedidos %}
+                        <tr class="bg-white border-b dark:bg-gray-200 dark:border-gray-300 border-gray-200">
+                            <th scope="row"
+                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-700">{{
+                                pedido['ID'] }}</th>
+                            <th class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-700">{{
+                                pedido['Tamanio'] }}</th>
+                            <td class="px-6 py-4 text-gray-800 dark:text-gray-700">{{ pedido['Ingredientes'] }}</td>
+                            <td class="px-6 py-4 text-gray-800 dark:text-gray-700">{{ pedido['Numero de Pizzas'] }}</td>
+                            <td class="px-6 py-4 text-gray-800 dark:text-gray-700">${{ pedido['Subtotal'] }}</td>
+                            <td class="px-6 py-4 text-gray-800 dark:text-gray-700">
+                                <form action="{{ url_for('eliminar', id_pedido=pedido['ID']) }}" method="post">
+                                    {{ form.csrf_token }}
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <input type="hidden" name="nombre" value="{{ form.nombre.data }}">
+                                    <input type="hidden" name="direccion" value="{{ form.direccion.data }}">
+                                    <input type="hidden" name="telefono" value="{{ form.telefono.data }}">
+                                    <input type="hidden" name="numero_pizzas" value="{{ form.numero_pizzas.data }}">
+                                    <button type="submit"
+                                        class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Quitar</button>
+                                </form>
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+                        {% endif %}
+
+                    </tbody>
+                </table>
+                <form action="{{url_for('registrar_pedido')}}" method="post">
+                    {{ form.csrf_token }}
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <!-- Campos ocultos -->
+                    <input type="hidden" name="nombre" value="{{ form.nombre.data }}">
+                    <input type="hidden" name="direccion" value="{{ form.direccion.data }}">
+                    <input type="hidden" name="telefono" value="{{ form.telefono.data }}">
+                    <input type="hidden" name="numero_pizzas" value="{{ form.numero_pizzas.data }}">
+                    <button type="submit"
+                        class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900">Terminar
+                        pedido</button>
+                </form>
+            </div>
+        </a>
+
+        <!-- Segundo elemento (30%) -->
+        <a
+            class="block p-6 bg-white border border-gray-100 rounded-lg shadow-sm dark:bg-gray-50 dark:border-gray-100 flex-3">
+            <form action="{{ url_for('pedidos') }}" method="post" novalidate>
+                {{ form.csrf_token }}
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                <div class="mb-5">
+                    {{ macros.camposNuevos(form.nombre, class="bg-white border border-gray-200 text-gray-900 rounded-lg
+                    focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-50 dark:border-gray-300
+                    dark:placeholder-gray-500 dark:text-gray-900 dark:focus:ring-blue-500 dark:focus:border-blue-500")
+                    }}
+                </div>
+
+                <div class="mb-5">
+                    {{ macros.camposNuevos(form.direccion, class="bg-white border border-gray-200 text-gray-900
+                    rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-50
+                    dark:border-gray-300 dark:placeholder-gray-500 dark:text-gray-900 dark:focus:ring-blue-500
+                    dark:focus:border-blue-500") }}
+                </div>
+
+                <div class="mb-5">
+                    {{ macros.camposNuevos(form.telefono, class="bg-white border border-gray-200 text-gray-900
+                    rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-50
+                    dark:border-gray-300 dark:placeholder-gray-500 dark:text-gray-900 dark:focus:ring-blue-500
+                    dark:focus:border-blue-500") }}
+                </div>
+
+                <div class="mb-5">
+                    {{ macros.camposNuevos(form.numero_pizzas, class="bg-white border border-gray-200 text-gray-900
+                    rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-50
+                    dark:border-gray-300 dark:placeholder-gray-500 dark:text-gray-900 dark:focus:ring-blue-500
+                    dark:focus:border-blue-500") }}
+                </div>
+
+                <div class="mb-5">
+                    <p>Tamaño de pizza</p>
+                    {{ macros.radio_button("tamanio", "Chica $40", "40", checked=True) }}
+                    {{ macros.radio_button("tamanio", "Mediana $80", "80") }}
+                    {{ macros.radio_button("tamanio", "Grande $120", "120") }}
+                </div>
+
+                <div class="mb-5">
+                    <p>Ingredientes</p>
+                    {{ macros.checkbox("ingredientes", "Jamon $10", "10") }}
+                    {{ macros.checkbox("ingredientes", "Piña $10", "10") }}
+                    {{ macros.checkbox("ingredientes", "Champiñones $10", "10") }}
+                </div>
+
+                <button type="submit"
+                    class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900">Añadir
+                    pedido</button>
+            </form>
+        </a>
+    </div>
+</div>
+
+{% endblock %}

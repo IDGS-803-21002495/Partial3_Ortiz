@@ -1,0 +1,68 @@
+{%extends "layout.html" %}
+
+{%block container%}
+
+
+{% import "_macros.html" as macros %}
+
+<div class="relative overflow-x-auto py-4 px-6">
+    
+    <form action="{{ url_for('ver_pedidos') }}" method="post" novalidate>
+        {{ form.csrf_token }}
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <!-- Radio buttons para elegir entre día o mes -->
+        <div class="mb-5">
+            <p>Selecciona el tipo de búsqueda</p>
+            {{ macros.radio_button("tipo_busqueda", "Por Día", "dia", checked=True) }}
+            {{ macros.radio_button("tipo_busqueda", "Por Mes", "mes") }}
+        </div>
+
+        <!-- Campo de texto para ingresar la fecha -->
+        <div class="mb-5">
+            <p>Fecha (día o mes)</p>
+            <input type="date" name="fecha"  class="bg-white border border-gray-200 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-50 dark:border-gray-300 dark:placeholder-gray-500 dark:text-gray-900 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        </div>
+
+        <!-- Botón para realizar la búsqueda -->
+        <button type="submit" class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900">Buscar ventas</button>
+    </form>
+    <a href="pedidos" class="flex items-center focus:outline-none text-white bg-yellow-700 hover:bg-yellow-800 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-yellow-800">Nuevo pedido</a>
+    <table class="w-full text-left rtl:text-right text-gray-800 dark:text-gray-900">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-300 dark:bg-gray-300 dark:text-gray-800">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    Nombre
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Fecha 
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Total de pedido
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for pedido in pedidos %}
+            <tr class="bg-white border-b dark:bg-gray-200 dark:border-gray-300 border-gray-200">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-700">
+                    {{pedido.nombre}}
+                </th>
+                <td class="px-6 py-4 text-gray-800 dark:text-gray-700">
+                    {{pedido.fecha_pedido}}
+                </td>
+                <td class="px-6 py-4 text-gray-800 dark:text-gray-700">
+                    $ {{pedido.total}}
+                </td>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+    <div>
+        <p class="text-base text-gray-900 font-bold">Total de ventas ${{total_ventas}}</p>
+    </div>
+</div>
+
+
+
+{% endblock %}
