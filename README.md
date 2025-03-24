@@ -42,7 +42,7 @@ Este es un sistema de gestión de pedidos para una pizzería, desarrollado con F
    ```bash
    py app.py
 
-**Para consultar más información sobre el uso de Flask-Login consulte aquí:**
+[**Para consultar más información sobre el uso de Flask-Login consulte aquí:**] (https://drive.google.com/file/d/1YcgK1A6wiycxfwKX0x9tmid-VVzcy7Sl/view?usp=sharing)
 
    
    
